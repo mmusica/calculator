@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+  font-size: xx-large;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: gray;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  height: 40vh;
+  border: 5px solid black;
+}
+
+.display {
+  border: 5px solid green;
+  height: 20%;
+}
+
+.calculator-body {
+  display: flex;
+  height: 80%;
+}
+
+.digits {
+  flex-grow: 3;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: stretch;
+}
+
+.digits button {
+  flex-basis: 33%;
+  flex-grow: 1;
+}
+
+.operators {
+  flex-grow: 1;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.operators button {
+  flex-grow: 1;
+}
+
+/* .digits, .operators {
+  height: 40%;
+  width: 40%;
+  border: 30px solid rgb(236, 19, 19);
+} */
