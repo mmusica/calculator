@@ -8,37 +8,85 @@ const display = document.querySelector(".display-text");
 let number = "";
 let operator = "";
 
+let calculation = [];
+
 calculator.addEventListener("click", (e) => {
   displayOnCalculator(e);
   const element = e.target;
-  if (element.tagName === "BUTTON" && digits.includes(element.textContent)) {
+
+  if (element.tagName !== "BUTTON") {
+    return;
+  }
+
+  if (element.textContent === "=") {
+    calculation.push(number);
+    let result = calculate(calculation);
+    display.textContent = result;
+    operator = "";
+    number = result;
+    return;
+  }
+
+  if (digits.includes(element.textContent)) {
     if (number === "" && element.textContent === "0") {
       return;
     }
     number += element.textContent;
-    console.log(number);
-  } else if (
-    element.tagName === "BUTTON" &&
-    operators.includes(element.textContent)
-  ) {
+
+    if (operator !== "") {
+      calculation.push(operator);
+    }
+  } else if (operators.includes(element.textContent)) {
     if (operator === "") {
       operator = element.textContent;
+      calculation.push(number);
+      number = "";
     }
-    console.log(operator);
   }
 });
+
+/**
+ *
+ * @param {Array} arr
+ */
+function calculate(arr) {
+  let firstNumber = +arr.shift();
+  let operator = arr.shift();
+  let secondNumber = +arr.shift();
+
+  switch (operator) {
+    case "+":
+      return firstNumber + secondNumber;
+    case "-":
+      return firstNumber - secondNumber;
+    case "*":
+      return firstNumber * secondNumber;
+    case "/":
+      return firstNumber / secondNumber;
+  }
+}
 
 function displayOnCalculator(e) {
   const element = e.target;
   const tagName = element.tagName;
   const elementText = element.textContent.toLowerCase();
-  if (tagName === "BUTTON" && elementText === "clear") {
+
+  if (tagName !== "BUTTON") {
+    return;
+  }
+
+  if (elementText === "=") {
+    return;
+  }
+
+  if (elementText === "clear") {
     display.textContent = "";
     number = "";
     operator = "";
-  } else if (tagName === "BUTTON" && digits.includes(elementText)) {
+    calculation = [];
+  } else if (digits.includes(elementText)) {
     display.textContent += elementText;
-  } else if (tagName === "BUTTON" && operators.includes(elementText)) {
+  } else if (operators.includes(elementText)) {
     if (operator === "") {
       display.textContent += elementText;
     }
