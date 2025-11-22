@@ -11,23 +11,21 @@ let operator = "";
 let calculation = [];
 
 calculator.addEventListener("click", (e) => {
-  displayOnCalculator(e);
-  const element = e.target;
+  displayOnCalculator(e.target);
+  handleCalculation(e.target);
+});
 
+/**
+ *
+ * @param {Element} e
+ * @returns
+ */
+function handleCalculation(element) {
   if (element.tagName !== "BUTTON") {
     return;
   }
 
-  if (element.textContent === "=") {
-    calculation.push(number);
-    let result = calculate(calculation);
-    display.textContent = result;
-    operator = "";
-    number = result;
-    return;
-  }
-
-  if (digits.includes(element.textContent)) {
+  if (element.textContent !== "=" && digits.includes(element.textContent)) {
     if (number === "" && element.textContent === "0") {
       return;
     }
@@ -35,6 +33,7 @@ calculator.addEventListener("click", (e) => {
 
     if (operator !== "") {
       calculation.push(operator);
+      operator = "";
     }
   } else if (operators.includes(element.textContent)) {
     if (operator === "") {
@@ -43,7 +42,16 @@ calculator.addEventListener("click", (e) => {
       number = "";
     }
   }
-});
+
+  if (element.textContent === "=") {
+    calculation.push(number);
+    let result = calculate(calculation);
+    display.textContent = result;
+
+    operator = "";
+    number = result;
+  }
+}
 
 /**
  *
@@ -66,8 +74,12 @@ function calculate(arr) {
   }
 }
 
-function displayOnCalculator(e) {
-  const element = e.target;
+/**
+ *
+ * @param {Element} element
+ * @returns
+ */
+function displayOnCalculator(element) {
   const tagName = element.tagName;
   const elementText = element.textContent.toLowerCase();
 
