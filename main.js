@@ -26,7 +26,7 @@ function handleCalculation(element) {
   }
 
   if (element.textContent !== "=" && digits.includes(element.textContent)) {
-    if (number === "" && element.textContent === "0") {
+    if (number === "" && operator === "" && element.textContent === "0") {
       return;
     }
     number += element.textContent;
@@ -37,8 +37,13 @@ function handleCalculation(element) {
     }
   } else if (operators.includes(element.textContent)) {
     if (operator === "") {
-      operator = element.textContent;
       calculation.push(number);
+      if (calculation.length === 3) {
+        let result = calculate(calculation);
+        display.textContent = result + element.textContent;
+        calculation.push(result);
+      }
+      operator = element.textContent;
       number = "";
     }
   }
@@ -70,6 +75,10 @@ function calculate(arr) {
     case "*":
       return firstNumber * secondNumber;
     case "/":
+      if (secondNumber == 0) {
+        alert("no!");
+        return 0;
+      }
       return firstNumber / secondNumber;
   }
 }
@@ -82,6 +91,10 @@ function calculate(arr) {
 function displayOnCalculator(element) {
   const tagName = element.tagName;
   const elementText = element.textContent.toLowerCase();
+
+  if (number === "" && operator === "" && elementText === "0") {
+    return;
+  }
 
   if (tagName !== "BUTTON") {
     return;
